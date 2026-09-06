@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <h2>📦 Inventory</h2>
+
+        <nav>
+            <a href="/" class="active">🏠 Dashboard</a>
+            <a href="/products">📦 Products</a>
+            <a href="#">📊 Stock</a>
+            <a href="#">📋 Categories</a>
+            <a href="#">📈 Reports</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+
+            <div>
+                <h1>Inventory Management System</h1>
+                <p>Manage your products and stock efficiently.</p>
+            </div>
+
+            <a href="/add_product" class="add-btn">
+                + Add Product
+            </a>
+
+        </header>
+
+
+        <!-- Statistics Cards -->
+        <section class="cards">
+
+            <div class="card">
+                <h3>Total Products</h3>
+                <p class="value">{{ total_products }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Stock</h3>
+                <p class="value">{{ total_stock }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Low Stock</h3>
+                <p class="value">{{ low_stock }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Out of Stock</h3>
+                <p class="value">{{ out_of_stock }}</p>
+            </div>
+
+        </section>
+
+
+        <!-- Recent Products -->
+        <section class="products">
+
+            <div class="section-header">
+
+                <h2>Recent Products</h2>
+
+                <button type="submit" class="add-btn">
+                </button>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for product in products %}
+
+                    <tr>
+
+                        <td>
+                            {{ product.product_name }}
+                        </td>
+
+                        <td>
+                            {{ product.category }}
+                        </td>
+
+                        <td>
+                            ₹{{ product.price }}
+                        </td>
+
+                        <td>
+                            {{ product.stock }}
+                        </td>
+
+                        <td>
+
+                            {% if product.stock == 0 %}
+
+                                Out of Stock
+
+                            {% elif product.stock <= 10 %}
+
+                                Low Stock
+
+                            {% else %}
+
+                                Available
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
