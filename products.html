@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products - Inventory Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <h2>📦 Inventory</h2>
+
+        <nav>
+            <a href="/">🏠 Dashboard</a>
+
+            <a href="/products" class="active">
+                📦 Products
+            </a>
+
+            <a href="#">📊 Stock</a>
+            <a href="#">📋 Categories</a>
+            <a href="#">📈 Reports</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Header -->
+        <header>
+
+            <div>
+                <h1>Products</h1>
+                <p>Manage all your inventory products.</p>
+            </div>
+
+            <a href="/add_product" class="add-btn">
+                + Add Product
+            </a>
+
+        </header>
+
+
+        <!-- Products Section -->
+        <section class="products">
+
+            <div class="section-header">
+
+                <h2>All Products</h2>
+
+                <!-- Search Box -->
+                <form action="/products" method="GET">
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search product..."
+                        value="{{ search }}"
+                    >
+
+                    <button type="submit">
+                        🔍 Search
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- Products Table -->
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for product in products %}
+
+                    <tr>
+
+                        <td>
+                            {{ product.id }}
+                        </td>
+
+                        <td>
+                            {{ product.product_name }}
+                        </td>
+
+                        <td>
+                            {{ product.category }}
+                        </td>
+
+                        <td>
+                            ₹{{ product.price }}
+                        </td>
+
+                        <td>
+                            {{ product.stock }}
+                        </td>
+
+                        <td>
+
+                            {% if product.stock == 0 %}
+
+                                <span class="status out">
+                                    Out of Stock
+                                </span>
+
+                            {% elif product.stock <= 10 %}
+
+                                <span class="status low">
+                                    Low Stock
+                                </span>
+
+                            {% else %}
+
+                                <span class="status available">
+                                    Available
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="edit-btn">
+                                ✏️ Edit
+                            </a>
+
+                            <a href="#"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this product?');">
+                                🗑️ Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7">
+                            No products found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
